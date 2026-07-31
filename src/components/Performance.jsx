@@ -42,7 +42,7 @@ const Performance = () => {
         scrollTrigger: {
           trigger: sectionEl,
           start: "top bottom",
-          end: "center center",
+          end: "bottom top",
           scrub: 1,
           invalidateOnRefresh: true,
         },
@@ -73,7 +73,12 @@ const Performance = () => {
 
       <div className="wrapper">
         {performanceImages.map((item, index) => (
-          <img key={index} src={item.src} className={item.id} alt="" />
+          <img
+            key={index}
+            src={item.src}
+            className={item.id}
+            alt={item.alt || `Performance Image #${index + 1}`}
+          />
         ))}
       </div>
 
