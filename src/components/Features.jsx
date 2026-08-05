@@ -1,6 +1,6 @@
 import { Canvas } from "@react-three/fiber";
 import StudioLights from "./three/StudioLights.jsx";
-import { features, featureSequence } from "../constants/index.js";
+import { featureLayout, featureSequence } from "../constants/index.js";
 import clsx from "clsx";
 import { Suspense, useEffect, useRef } from "react";
 import { Html } from "@react-three/drei";
@@ -9,11 +9,13 @@ import { useMediaQuery } from "react-responsive";
 import useMacbookStore from "../store/index.js";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
+import useTranslation from "../i18n/useTranslation.js";
 
 const ModelScroll = () => {
   const groupRef = useRef(null);
   const isMobile = useMediaQuery({ query: "(max-width: 1024px)" });
   const { setTexture } = useMacbookStore();
+  const { t } = useTranslation();
 
   // Pre-load all feature videos during component mount
   useEffect(() => {
@@ -85,7 +87,9 @@ const ModelScroll = () => {
       <Suspense
         fallback={
           <Html>
-            <h1 className="text-white text-3xl uppercase">Loading...</h1>
+            <h1 className="text-white text-3xl uppercase">
+              {t("common.loading")}
+            </h1>
           </Html>
         }
       >
@@ -96,9 +100,12 @@ const ModelScroll = () => {
 };
 
 const Features = () => {
+  const { t } = useTranslation();
+  const featureItems = t("features.items");
+
   return (
     <section id="features">
-      <h2>See it all in a new light.</h2>
+      <h2>{t("features.heading")}</h2>
 
       <Canvas id="f-canvas" camera={{}}>
         <StudioLights />
@@ -107,15 +114,17 @@ const Features = () => {
       </Canvas>
 
       <div className="absolute inset-0">
-        {features.map((feature, index) => (
+        {featureLayout.map((feature, index) => (
           <div
             key={feature.id}
             className={clsx("box", `box${index + 1}`, feature.styles)}
           >
-            <img src={feature.icon} alt={feature.highlight} />
+            <img src={feature.icon} alt={featureItems[index]?.highlight} />
             <p>
-              <span className="text-white">{feature.highlight}</span>
-              {feature.text}
+              <span className="text-white">
+                {featureItems[index]?.highlight}
+              </span>
+              {featureItems[index]?.text}
             </p>
           </div>
         ))}

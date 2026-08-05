@@ -8,18 +8,32 @@ Source: https://sketchfab.com/3d-models/macbook-pro-m3-16-inch-2024-8e34fc2b3031
 Title: macbook pro M3 16 inch 2024
 */
 import { useGLTF, useTexture } from "@react-three/drei";
+import { useThree } from "@react-three/fiber";
 import useMacbookStore from "../../store";
-import { useEffect } from "react";
+import { useEffect, useMemo } from "react";
 import { noChangeParts } from "../../constants";
-import { Color } from "three";
+import { Color, SRGBColorSpace } from "three";
 
 export default function MacbookModel16(props) {
-  const { color } = useMacbookStore();
+  const { color, screenTheme } = useMacbookStore();
+  const { gl } = useThree();
   const { nodes, materials, scene } = useGLTF(
     "/models/macbook-16-transformed.glb",
   );
 
-  const texture = useTexture("/dashboard-screen.png");
+  const rawTexture = useTexture(
+    screenTheme === "light"
+      ? "/dashboard-screen-light.png"
+      : "/dashboard-screen.png",
+  );
+
+  const texture = useMemo(() => {
+    const sharpTexture = rawTexture.clone();
+    sharpTexture.anisotropy = gl.capabilities.getMaxAnisotropy();
+    sharpTexture.colorSpace = SRGBColorSpace;
+    sharpTexture.needsUpdate = true;
+    return sharpTexture;
+  }, [rawTexture, gl]);
 
   useEffect(() => {
     scene.traverse((child) => {
@@ -136,3 +150,5 @@ export default function MacbookModel16(props) {
 }
 
 useGLTF.preload("/models/macbook-16-transformed.glb");
+useTexture.preload("/dashboard-screen.png");
+useTexture.preload("/dashboard-screen-light.png");

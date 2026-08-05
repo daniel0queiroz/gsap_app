@@ -21,7 +21,7 @@
 }
 
 * {
-  scrollbar-color: var(--color-dark-100) var(--color-black);
+  scrollbar-color: var(--color-dark-100) var(--color-surface);
 }
 
 :root {
@@ -43,6 +43,7 @@
   --color-dark-100: #86868b;
   --color-dark-200: #2e2e30;
   --color-light-100: #adb5bd;
+  --color-surface: #0b0c14;
 }
 
 html {
@@ -54,7 +55,7 @@ html {
 body {
   width: 100vw;
   overflow-x: hidden;
-  background-color: #000;
+  background-color: var(--color-surface);
   color: var(--color-dark-100);
   font-family: var(--font-semibold);
 }
@@ -88,8 +89,20 @@ body {
 }
 
 @layer components {
+  .language-switcher {
+    @apply fixed top-5 right-5 z-50 flex-center bg-surface/60 backdrop-blur-md rounded-full p-1 gap-1;
+
+    button {
+      @apply small-medium text-white opacity-60 cursor-pointer rounded-full px-3 py-1.5 transition-all duration-300 ease-in-out hover:opacity-100;
+    }
+
+    .active {
+      @apply opacity-100 bg-neutral-800;
+    }
+  }
+
   #hero {
-    @apply h-fit lg:h-[80vh] col-center mt-40 lg:mt-20 2xl:mt-[7vh];
+    @apply h-fit lg:h-[80vh] col-center mt-16 lg:mt-10;
 
     div {
       @apply relative z-10 col-center lg:translate-y-16;
@@ -98,8 +111,14 @@ body {
         @apply font-semibold lg:text-3xl 2xl:text-5xl text-white;
       }
 
-      img {
-        @apply container mx-auto w-2/3;
+      .tagline {
+        @apply container mx-auto w-2/3 text-center font-bold text-3xl lg:text-6xl 2xl:text-7xl mt-2;
+
+        background: var(--gradient-color);
+        background-clip: text;
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        filter: drop-shadow(0 0 25px rgba(160, 130, 255, 0.35));
       }
     }
 
@@ -117,42 +136,106 @@ body {
   }
 
   #product-viewer {
-    @apply container relative min-h-[93vh] mx-auto px-5 2xl:px-0 mt-40;
+    @apply container relative min-h-screen mx-auto px-5 2xl:px-0 mt-16 lg:mt-10 flex flex-col justify-center;
 
-    h2 {
-      @apply text-white font-semibold text-3xl lg:text-6xl;
-    }
+    .intro {
+      @apply relative z-10 max-w-2xl shrink-0;
 
-    .controls {
-      @apply absolute z-50 bottom-40 lg:bottom-40 2xl:bottom-52 left-1/2 -translate-x-1/2;
-
-      .info {
-        @apply text-xs text-white bg-black/20 px-2 py-1 rounded-lg;
+      .eyebrow {
+        @apply small-medium text-primary uppercase tracking-widest mb-3;
       }
 
-      .color-control {
-        @apply flex-between bg-neutral-800 rounded-full px-6 py-3 gap-4;
+      h2 {
+        @apply text-white font-semibold text-3xl lg:text-5xl;
+      }
 
-        div {
-          @apply size-7 rounded-full cursor-pointer;
+      .lede {
+        @apply base-semibold mt-4 max-w-md;
+      }
+
+      .subline {
+        @apply text-white font-semibold text-lg mt-2;
+      }
+    }
+
+    .stage {
+      @apply relative h-[58vh] lg:h-[65vh] mt-8 lg:mt-4;
+    }
+
+    .capabilities {
+      @apply absolute inset-0 z-50 pointer-events-none;
+
+      .capability {
+        @apply pointer-events-auto absolute flex flex-col gap-2 lg:gap-3 w-36 lg:w-44 bg-surface/80 backdrop-blur-md border border-white/10 rounded-xl p-2.5 lg:p-3.5;
+      }
+
+      .capability-left {
+        @apply left-0 lg:left-6 top-[42%] -translate-y-1/2;
+      }
+
+      .capability-right {
+        @apply right-0 lg:right-10 top-[30%] -translate-y-1/2;
+      }
+
+      .capability-bottom {
+        @apply left-1/2 -translate-x-1/2 bottom-2 lg:bottom-10;
+      }
+
+      .capability-header {
+        @apply flex items-start gap-2.5;
+
+        .capability-icon {
+          @apply flex-center shrink-0 size-7 rounded-md bg-white/5 border border-white/10 text-primary;
+
+          svg {
+            @apply size-3.5;
+          }
+        }
+
+        .capability-label {
+          @apply text-xs font-medium text-white;
+        }
+
+        .capability-caption {
+          @apply text-[11px] leading-snug text-dark-100 mt-0.5;
+        }
+      }
+
+      .segmented {
+        @apply relative flex bg-black/40 border border-white/10 rounded-lg p-0.5;
+
+        .segmented-indicator {
+          @apply absolute inset-y-0.5 left-0.5 w-[calc(50%-2px)] bg-white rounded-md transition-transform duration-300 ease-out;
+        }
+
+        button {
+          @apply relative z-10 flex-1 flex-center gap-1 py-1.5 rounded-md text-[11px] font-medium text-dark-100 cursor-pointer transition-colors duration-300 ease-in-out;
+
+          svg {
+            @apply size-3.5;
+          }
         }
 
         .active {
-          @apply ring-5 size-5 ring-light-100;
+          @apply text-black;
         }
       }
 
-      .size-control {
-        @apply small-medium flex-between bg-neutral-800 rounded-full px-6 py-2.5 gap-2;
+      .swatches {
+        @apply flex justify-center bg-black/40 border border-white/10 rounded-lg p-1.5 gap-2;
 
-        div {
-          @apply size-8 rounded-full cursor-pointer bg-white text-black flex-center;
+        button {
+          @apply size-6 rounded-md cursor-pointer border border-white/10 transition-all duration-300 ease-in-out;
+        }
+
+        .active {
+          @apply ring-2 ring-white ring-offset-2 ring-offset-surface;
         }
       }
     }
 
     #canvas {
-      @apply !w-full !h-[80vh] lg:!h-dvh relative z-40;
+      @apply !w-full !h-full relative z-40;
     }
   }
 
@@ -183,7 +266,7 @@ body {
     }
 
     .content {
-      @apply relative z-10 my-5 lg:-mt-40 bg-black font-semibold text-xl text-dark-100 lg:opacity-0;
+      @apply relative z-10 my-5 lg:-mt-40 bg-surface font-semibold text-xl text-dark-100 lg:opacity-0;
 
       .wrapper {
         @apply container mx-auto px-5 pb-20 2xl:px-0 flex flex-col lg:flex-row justify-center gap-20;
@@ -315,7 +398,7 @@ body {
         p {
           @apply font-semibold text-4xl max-w-2xs;
         }
-        .apple-gradient {
+        .accent-gradient {
           @apply p-10 rounded-3xl flex items-center gap-7 relative;
 
           background: #1d1d1f;

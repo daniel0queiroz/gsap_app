@@ -2,9 +2,11 @@ import { useRef } from "react";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 import { useMediaQuery } from "react-responsive";
+import useTranslation from "../i18n/useTranslation";
 
 function Showcase() {
   const sectionRef = useRef();
+  const { t } = useTranslation();
 
   useGSAP(
     () => {
@@ -53,42 +55,30 @@ function Showcase() {
       <div className="content">
         <div className="wrapper">
           <div className="lg:max-w-md">
-            <h2>Rocket Chip</h2>
+            <h2>{t("showcase.heading")}</h2>
             <div className="space-y-5 mt-7 pe-10">
               <p>
-                Introducing{" "}
+                {t("showcase.p1Prefix")}
                 <span className="text-white">
-                  M4, the next generation of Apple silicon
+                  {t("showcase.p1Highlight")}
                 </span>
-                . M4 powers
+                {t("showcase.p1Suffix")}
               </p>
-              <p>
-                Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                Explicabo eveniet atque, assumenda itaque repudiandae doloribus
-                doloremque maxime tenetur, sit quis, quisquam libero ullam
-                voluptatum dolores culpa dolor! Obcaecati, eius ullam.
-              </p>
-              <p>
-                Lorem ipsum dolor sit, amet consectetur adipisicing elit. Ipsum,
-                totam cumque dignissimos explicabo corrupti fugit laboriosam
-                unde id eius deleniti optio facere aperiam quia hic sed ullam
-                non culpa laborum.
-              </p>
-              <p className="text-primary">
-                Learn more about Apple Intelligence
-              </p>
+              <p>{t("showcase.p2")}</p>
+              <p>{t("showcase.p3")}</p>
+              <p className="text-primary">{t("showcase.cta")}</p>
             </div>
           </div>
           <div className="max-w-3xs space-y-14">
             <div className="space-y-2">
-              <p>Up to</p>
-              <h3>4x faster</h3>
-              <p>pro rendering performance than M2</p>
+              <p>{t("showcase.upTo")}</p>
+              <h3>{t("showcase.stat1Value")}</h3>
+              <p>{t("showcase.stat1Label")}</p>
             </div>
             <div className="space-y-2">
-              <p>Up to</p>
-              <h3>1.5x faster</h3>
-              <p>CPU performance than M2</p>
+              <p>{t("showcase.upTo")}</p>
+              <h3>{t("showcase.stat2Value")}</h3>
+              <p>{t("showcase.stat2Label")}</p>
             </div>
           </div>
         </div>

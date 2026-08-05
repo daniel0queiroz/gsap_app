@@ -1,9 +1,11 @@
 import { useMediaQuery } from "react-responsive";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
+import useTranslation from "../i18n/useTranslation";
 
 const Highlights = () => {
   const isMobile = useMediaQuery({ query: "(max-width: 1024px)" });
+  const { t } = useTranslation();
 
   useGSAP(() => {
     gsap.to([".left-column", ".right-column"], {
@@ -21,39 +23,45 @@ const Highlights = () => {
 
   return (
     <section id="highlights">
-      <h2>There’s never been a better time to upgrade.</h2>
-      <h3>Here’s what you get with the new MacBook Pro.</h3>
+      <h2>{t("highlights.heading")}</h2>
+      <h3>{t("highlights.subheading")}</h3>
 
       <div className="masonry">
         <div className="left-column">
           <div>
             <img src="/laptop.png" alt="Laptop" />
-            <p>Fly through demanding tasks up to 9.8x faster.</p>
+            <p>{t("highlights.card1")}</p>
           </div>
           <div>
             <img src="/sun.png" alt="Sun" />
             <p>
-              A stunning <br />
-              Liquid Retina XDR <br />
-              display.
+              {t("highlights.card2Line1")} <br />
+              {t("highlights.card2Line2")} <br />
+              {t("highlights.card2Line3")}
             </p>
           </div>
         </div>
         <div className="right-column">
-          <div className="apple-gradient">
+          <div className="accent-gradient">
             <img src="/ai.png" alt="AI" />
             <p>
-              Built for <br />
-              <span>Apple Intelligence.</span>
+              {t("highlights.card3Prefix")} <br />
+              <span>{t("highlights.card3Highlight")}</span>
             </p>
           </div>
           <div>
             <img src="/battery.png" alt="Battery" />
             <p>
-              Up to
-              <span className="green-gradient"> 14 more hours </span>
-              battery life.
-              <span className="text-dark-100"> (Up to 24 hours total.)</span>
+              {t("highlights.card4Prefix")}
+              <span className="green-gradient">
+                {" "}
+                {t("highlights.card4Highlight")}{" "}
+              </span>
+              {t("highlights.card4Mid")}
+              <span className="text-dark-100">
+                {" "}
+                {t("highlights.card4Suffix")}
+              </span>
             </p>
           </div>
         </div>

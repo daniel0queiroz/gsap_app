@@ -1,7 +1,9 @@
 import { useEffect, useRef } from "react";
+import useTranslation from "../i18n/useTranslation";
 
 const Hero = () => {
   const videoRef = useRef();
+  const { t } = useTranslation();
 
   useEffect(() => {
     if (videoRef.current) videoRef.current.playbackRate = 3;
@@ -10,8 +12,8 @@ const Hero = () => {
   return (
     <section id="hero">
       <div>
-        <h1>Macbook Pro</h1>
-        <img src="/title.png" alt="Macbook Title" />
+        <h1>Nova3D Studio</h1>
+        <p className="tagline">{t("hero.tagline")}</p>
       </div>
       <video
         ref={videoRef}
@@ -21,9 +23,9 @@ const Hero = () => {
         playsInline
       ></video>
 
-      <button>Buy</button>
+      <button>{t("hero.cta")}</button>
 
-      <p>From $1599 or $133/mo for 12 months</p>
+      <p>{t("hero.price")}</p>
     </section>
   );
 };
