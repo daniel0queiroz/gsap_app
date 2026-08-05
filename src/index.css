@@ -107,8 +107,8 @@ body {
     div {
       @apply relative z-10 col-center lg:translate-y-16;
 
-      h1 {
-        @apply font-semibold lg:text-3xl 2xl:text-5xl text-white;
+      .kicker {
+        @apply small-medium text-dark-100 uppercase tracking-widest;
       }
 
       .tagline {

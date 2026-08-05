@@ -12,8 +12,8 @@ const Hero = () => {
   return (
     <section id="hero">
       <div>
-        <h1>Nova3D Studio</h1>
-        <p className="tagline">{t("hero.tagline")}</p>
+        <p className="kicker">{t("hero.kicker")}</p>
+        <h1 className="tagline">{t("hero.tagline")}</h1>
       </div>
       <video
         ref={videoRef}
