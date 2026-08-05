@@ -11,7 +11,7 @@ Title: macbook pro M3 16 inch 2024
 import { useEffect } from "react";
 import { useGLTF, useVideoTexture } from "@react-three/drei";
 import useMacbookStore from "../../store/index.js";
-import { noChangeParts } from "../../constants/index.js";
+import { featureSequence, noChangeParts } from "../../constants/index.js";
 import { Color } from "three";
 
 export default function MacbookModel(props) {
@@ -20,7 +20,20 @@ export default function MacbookModel(props) {
     "/models/macbook-transformed.glb",
   );
 
-  const screen = useVideoTexture(texture);
+  // Load every feature video up front, inside this same Suspense boundary,
+  // so swapping the active one while scrolling never re-suspends and
+  // flashes the loading state.
+  const screen1 = useVideoTexture(featureSequence[0].videoPath);
+  const screen2 = useVideoTexture(featureSequence[1].videoPath);
+  const screen3 = useVideoTexture(featureSequence[2].videoPath);
+  const screen4 = useVideoTexture(featureSequence[3].videoPath);
+  const screen5 = useVideoTexture(featureSequence[4].videoPath);
+
+  const preloadedScreens = [screen1, screen2, screen3, screen4, screen5];
+  const activeIndex = featureSequence.findIndex(
+    (feature) => feature.videoPath === texture,
+  );
+  const screen = preloadedScreens[activeIndex] ?? screen1;
 
   useEffect(() => {
     scene.traverse((child) => {
