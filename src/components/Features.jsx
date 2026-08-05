@@ -35,51 +35,40 @@ const ModelScroll = () => {
   }, []);
 
   useGSAP(() => {
-    // 3D MODEL ROTATION ANIMATION
-    const modelTimeline = gsap.timeline({
+    // ONE shared timeline for spin + content, so the reveal pace always
+    // matches the actual pinned scroll distance (no more flashing by).
+    const masterTimeline = gsap.timeline({
       scrollTrigger: {
         trigger: "#f-canvas",
         start: "top top",
-        end: "bottom  top",
+        end: "+=200%",
         scrub: 1,
         pin: true,
       },
     });
 
-    // SYNC THE FEATURE CONTENT
-    const timeline = gsap.timeline({
-      scrollTrigger: {
-        trigger: "#f-canvas",
-        start: "top center",
-        end: "bottom  top",
-        scrub: 1,
-      },
-    });
+    // Total length of the content sequence below, so the spin can be
+    // stretched to match it instead of defaulting to a 0.5s tween.
+    const contentDuration = (featureSequence.length - 1) * 1.4 + 0.3 + 1;
 
-    // 3D SPIN
+    // 3D SPIN — stretched across the whole pinned scroll range, not just
+    // GSAP's default 0.5s, so it keeps turning the entire time
     if (groupRef.current) {
-      modelTimeline.to(groupRef.current.rotation, {
-        y: Math.PI * 2,
-        ease: "power1.inOut",
-      });
+      masterTimeline.to(
+        groupRef.current.rotation,
+        { y: Math.PI * 2, ease: "none", duration: contentDuration },
+        0,
+      );
     }
 
-    // Content & Texture Sync
-    timeline
-      .call(() => setTexture("/videos/feature-1.mp4"))
-      .to(".box1", { opacity: 1, y: 0, delay: 1 })
-
-      .call(() => setTexture("/videos/feature-2.mp4"))
-      .to(".box2", { opacity: 1, y: 0 })
-
-      .call(() => setTexture("/videos/feature-3.mp4"))
-      .to(".box3", { opacity: 1, y: 0 })
-
-      .call(() => setTexture("/videos/feature-4.mp4"))
-      .to(".box4", { opacity: 1, y: 0 })
-
-      .call(() => setTexture("/videos/feature-5.mp4"))
-      .to(".box5", { opacity: 1, y: 0 });
+    // Content & Texture Sync — each box gets its own evenly-spaced window
+    // so there's real time to read before the next one appears
+    featureSequence.forEach((feature, index) => {
+      const position = index * 1.4 + 0.3;
+      masterTimeline
+        .call(() => setTexture(feature.videoPath), null, position)
+        .to(feature.boxClass, { opacity: 1, y: 0, duration: 1 }, position);
+    });
   }, []);
 
   return (
@@ -107,27 +96,32 @@ const Features = () => {
     <section id="features">
       <h2>{t("features.heading")}</h2>
 
-      <Canvas id="f-canvas" camera={{}}>
-        <StudioLights />
-        <ambientLight intensity={0.5} />
-        <ModelScroll />
-      </Canvas>
+      {/* Pinned as a whole, so the text overlay stays locked to the 3D
+          model instead of freezing wherever it was in the tall scroll
+          spacer when the pin engages. */}
+      <div id="f-canvas">
+        <Canvas className="feature-canvas" camera={{}}>
+          <StudioLights />
+          <ambientLight intensity={0.5} />
+          <ModelScroll />
+        </Canvas>
 
-      <div className="absolute inset-0">
-        {featureLayout.map((feature, index) => (
-          <div
-            key={feature.id}
-            className={clsx("box", `box${index + 1}`, feature.styles)}
-          >
-            <img src={feature.icon} alt={featureItems[index]?.highlight} />
-            <p>
-              <span className="text-white">
-                {featureItems[index]?.highlight}
-              </span>
-              {featureItems[index]?.text}
-            </p>
-          </div>
-        ))}
+        <div className="absolute inset-0">
+          {featureLayout.map((feature, index) => (
+            <div
+              key={feature.id}
+              className={clsx("box", `box${index + 1}`, feature.styles)}
+            >
+              <img src={feature.icon} alt={featureItems[index]?.highlight} />
+              <p>
+                <span className="text-white">
+                  {featureItems[index]?.highlight}
+                </span>{" "}
+                {featureItems[index]?.text}
+              </p>
+            </div>
+          ))}
+        </div>
       </div>
     </section>
   );

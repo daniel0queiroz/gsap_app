@@ -342,7 +342,11 @@ body {
     }
 
     #f-canvas {
-      @apply !w-full !h-dvh relative z-40;
+      @apply relative w-full h-dvh;
+    }
+
+    .feature-canvas {
+      @apply !w-full !h-full relative z-40;
     }
 
     .box {

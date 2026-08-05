@@ -69,36 +69,36 @@ const featureLayout = [
   {
     id: 1,
     icon: "/feature-icon1.svg",
-    styles: "left-5 md:left-20 top-[20%] opacity-0 translate-y-5",
+    styles: "left-5 md:left-20 top-[15%] opacity-0 translate-y-5",
   },
   {
     id: 2,
     icon: "/feature-icon2.svg",
-    styles: "right-5 md:right-20 top-[30%] opacity-0 translate-y-5",
+    styles: "right-5 md:right-20 top-[28%] opacity-0 translate-y-5",
   },
   {
     id: 3,
     icon: "/feature-icon3.svg",
-    styles: "left-5 md:left-20 top-[50%] opacity-0 translate-y-5",
+    styles: "left-5 md:left-20 top-[41%] opacity-0 translate-y-5",
   },
   {
     id: 4,
     icon: "/feature-icon4.svg",
-    styles: "right-5 md:right-20 top-[70%] opacity-0 translate-y-5",
+    styles: "right-5 md:right-20 top-[54%] opacity-0 translate-y-5",
   },
   {
     id: 5,
     icon: "/feature-icon5.svg",
-    styles: "left-5 md:left-20 top-[90%] opacity-0 translate-y-5",
+    styles: "left-5 md:left-20 top-[67%] opacity-0 translate-y-5",
   },
 ];
 
 const featureSequence = [
-  { videoPath: "/videos/feature-1.mp4", boxClass: ".box1", delay: 1 },
-  { videoPath: "/videos/feature-2.mp4", boxClass: ".box2", delay: 0 },
-  { videoPath: "/videos/feature-3.mp4", boxClass: ".box3", delay: 0 },
-  { videoPath: "/videos/feature-4.mp4", boxClass: ".box4", delay: 0 },
-  { videoPath: "/videos/feature-5.mp4", boxClass: ".box5", delay: 0 },
+  { videoPath: "/videos/feature-1.mp4", boxClass: ".box1" },
+  { videoPath: "/videos/feature-2.mp4", boxClass: ".box2" },
+  { videoPath: "/videos/feature-3.mp4", boxClass: ".box3" },
+  { videoPath: "/videos/feature-4.mp4", boxClass: ".box4" },
+  { videoPath: "/videos/feature-5.mp4", boxClass: ".box5" },
 ];
 
 export {
